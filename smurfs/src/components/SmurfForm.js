@@ -1,60 +1,49 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { postData } from "../actions";
+function SmurfForm(props) {
 
-class SmurfForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      name: '',
-      age: '',
-      height: ''
-    };
-  }
+  const [smurf, setSmurf] = useState([]);
 
-  addSmurf = event => {
-    event.preventDefault();
-    this.props.addSmurf({
-      name: this.state.name,
-      age: this.state.age,
-      height: this.state.height
-    })
-    this.setState({
-      name: '',
-      age: '',
-      height: ''
-    });
-  }
+  const addSmurf = e => {
+    e.preventDefault();
 
-  handleInputChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
   };
 
-  render() {
-    return (
-      <div className="SmurfForm">
-        <form onSubmit={this.addSmurf}>
-          <input
-            onChange={this.handleInputChange}
-            placeholder="name"
-            value={this.state.name}
-            name="name"
-          />
-          <input
-            onChange={this.handleInputChange}
-            placeholder="age"
-            value={this.state.age}
-            name="age"
-          />
-          <input
-            onChange={this.handleInputChange}
-            placeholder="height"
-            value={this.state.height}
-            name="height"
-          />
-          <button type="submit">Add to the village</button>
-        </form>
-      </div>
-    );
-  }
+  const handleInputChange = e => {
+    setSmurf({ ...smurf, [e.target.name]: e.target.value });
+  };
+
+  return (
+    <div className="SmurfForm">
+      <form onSubmit={addSmurf}>
+        <input
+          onChange={handleInputChange}
+          placeholder="name"
+          value={smurf.name}
+          name="name"
+        />
+        <input
+          onChange={handleInputChange}
+          placeholder="age"
+          value={smurf.age}
+          name="age"
+        />
+        <input
+          onChange={handleInputChange}
+          placeholder="height"
+          value={smurf.height}
+          name="height"
+        />
+        <button type="submit" onClick={() => props.postData(smurf)}>Add to the village</button>
+      </form>
+    </div>
+  );
 }
 
-export default SmurfForm;
+export default connect(
+  null,
+  {
+    postData
+  }
+)(SmurfForm);
