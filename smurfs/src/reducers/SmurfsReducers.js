@@ -18,7 +18,7 @@ export const reducer = (state = initialState, action) => {
         case FETCH_SMURFS_DATA_SUCCESS:
             return {
                 ...state,
-                chars: action.payload,
+                smurfs: action.payload,
 
             };
         default:
